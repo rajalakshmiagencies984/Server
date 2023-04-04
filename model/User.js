@@ -8,8 +8,11 @@ const userSchema = new Schema({
     phone:Number,
     password:String,
     aadharNo:String,
-    joinedOn:String,
+    joinedOn:{
+        type:Date,
+        default:Date.now
+    }
 
 })
 
-module.exports = new model("User",userSchema)
+module.exports = mongoose.model("User",userSchema)

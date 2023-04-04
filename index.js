@@ -3,9 +3,8 @@ const app=express();
 const dotenv = require("dotenv")
 const mongoose=require("mongoose")
 const cors=require("cors")
-
-
-
+const categoryRoutes = require("./routes/category")
+const productRoutes = require('./routes/products')
 app.use(cors())
 app.use(express.json({extended:true}))
 app.use(express.urlencoded({ extended: true }));
@@ -19,10 +18,18 @@ mongoose.connect(process.env.DB,{useNewUrlParser:true,useUnifiedTopology:true})
     console.log("OOPS !! ERROR",err)
 })
 
-app.get('/',(req,res)=>{
-    res.send("RAJALKSHMI AGENCIES")
+
+
+
+app.get('/api/',async(req,res)=>{
+    res.send("Rajalakshmi Agencies")
 })
 
+app.use('/api/category',categoryRoutes)
+app.use('/api/product',productRoutes)
+app.use("*",(req,res)=>{
+    res.status(500).send("Error Occured")
+})
 
 const PORT=process.env.PORT || 5000;
 
