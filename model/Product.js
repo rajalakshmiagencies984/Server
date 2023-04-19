@@ -2,12 +2,19 @@ const mongoose = require("mongoose");
 const {Schema}=mongoose
 const productSchema = new Schema({
     name:String,
-    mrp:Number,
     image:String,
     category:String,
-    gst:String,
     stock:Number,
-    sold:Number,
+    sold:{
+        type:Number,
+        default:0
+    },
+    prices:[
+        {
+            quantity:String,
+            price:Number
+        }
+    ],
     chemicals:[
         {
             name:String,

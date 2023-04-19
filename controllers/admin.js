@@ -17,9 +17,11 @@ module.exports.login = async(req,res)=>{
        const token = jwt.sign({email,id:admin._id},'token',{expiresIn:'10d'})
        return res.status(200).json({token,user:admin})
     }catch(error){
-        return res.status(500).json({error})
+        return res.status(500).send(error)
     }
 }
+
+
 
 module.exports.register =async(req,res)=>{
     const {email,name,phone,password}=req.body;
@@ -32,8 +34,29 @@ module.exports.register =async(req,res)=>{
         const newUser = new Admin({email,phone,name,password:hashpassword});
         await newUser.save();
         const token = jwt.sign({email,id:newUser._id},'token',{expiresIn:'10d'})
-       return res.status(200).json({token,user:admin})
+        return res.status(200).json({token,user:admin})
     } catch (error) {
-        res.status(500).json({error})
+        res.status(500).send(error)
+    }
+}
+
+
+
+module.exports.getAllAdmin = async(req,res)=>{
+    try {
+        const admins =await Admin.find({});
+        res.status(200).json(admins);
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}
+
+module.exports.deleteAdmin = async(req,res)=>{
+    try {
+        const {id}=req.body;
+        await Admin.findByIdAndDelete(id);
+        res.status(200).json({message:"Success"})
+    } catch (error) {
+        res.status(500).send(error)
     }
 }

@@ -6,6 +6,7 @@ const categorySchema = new Schema({
     image:String,
     background:String,
     color:String,
+    gst:Number,
     products:[
         {
             type:Schema.Types.ObjectId,

@@ -8,6 +8,7 @@ const userSchema = new Schema({
     phone:Number,
     password:String,
     aadharNo:String,
+    address:String,
     joinedOn:{
         type:Date,
         default:Date.now

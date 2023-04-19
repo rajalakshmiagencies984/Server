@@ -11,7 +11,7 @@ module.exports.addProduct = async(req,res)=>{
         res.status(201).json(product)
     } catch (error) {
         console.log(error.message)
-        res.status(500).json({error})
+        res.status(500).send(error)
     }
 }
 
@@ -20,6 +20,28 @@ module.exports.getProducts =async(req,res)=>{
         const products = await Product.find({});
         res.status(200).json(products)
     } catch (error) {
-        res.status(500).json({error})
+        res.status(500).send(error)
+    }
+}
+
+module.exports.editProduct = async(req,res)=>{
+    try {
+        const {id}=req.params;
+        const product=await Product.findByIdAndUpdate(id,{...req.body});
+        await product.save();
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}
+
+
+module.exports.deleteProduct=async(req,res)=>{
+    try {
+        const {id}=req.params;
+        await Product.findByIdAndDelete(id);
+        res.status(200).json({message:"Successfull"})
+    } catch (error) {
+        res.status(500).send(error)
     }
 }

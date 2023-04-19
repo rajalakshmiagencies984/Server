@@ -5,6 +5,8 @@ const mongoose=require("mongoose")
 const cors=require("cors")
 const categoryRoutes = require("./routes/category")
 const productRoutes = require('./routes/products')
+const userRoutes = require('./routes/user')
+const adminRoutes = require('./routes/admin')
 app.use(cors())
 app.use(express.json({extended:true}))
 app.use(express.urlencoded({ extended: true }));
@@ -27,6 +29,8 @@ app.get('/api/',async(req,res)=>{
 
 app.use('/api/category',categoryRoutes)
 app.use('/api/product',productRoutes)
+app.use('/api/admin',adminRoutes)
+app.use('/api/user',userRoutes)
 app.use("*",(req,res)=>{
     res.status(500).send("Error Occured")
 })
