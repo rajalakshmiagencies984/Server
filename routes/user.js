@@ -1,13 +1,17 @@
 const express = require('express')
-const {login,register,getAll,editUser,deleteUser,changePassword}=require('../controllers/user')
+const {login,register,getAll,editUser,deleteUser,changePassword,addAddress,getUser}=require('../controllers/user')
+const {otp_sendEmail}=require('../controllers/mail')
 const router = express.Router();
 
 
 router.get('/',getAll)
-router.patch('/:id',editUser)
 router.delete('/',deleteUser)
+router.get('/:id',getUser)
+router.patch('/:id',editUser)
+router.post('/otp',otp_sendEmail)
 router.post('/login',login)
 router.post('/register',register)
+router.post('/address/',addAddress)
 router.patch('/change/password',changePassword)
 
 

@@ -7,13 +7,28 @@ const userSchema = new Schema({
     email:String,
     phone:Number,
     password:String,
-    aadharNo:String,
-    address:String,
+    aadhar:String,
+    deviceId:String,
+    address:[
+      {
+       doorNo:{
+         type:String,
+       },
+       street:{
+        type:String,
+       },
+       city:{
+        type:String,
+       },
+       pinCode:{
+        type:Number,
+       }
+    }
+  ],
     joinedOn:{
         type:Date,
         default:Date.now
     }
-
 })
 
 module.exports = mongoose.model("User",userSchema)

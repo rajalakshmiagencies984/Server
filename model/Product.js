@@ -4,15 +4,15 @@ const productSchema = new Schema({
     name:String,
     image:String,
     category:String,
-    stock:Number,
     sold:{
-        type:Number,
-        default:0
+        quantity:Number,
+        price:Number,
     },
     prices:[
         {
             quantity:String,
-            price:Number
+            price:Number,
+            stock:Number,
         }
     ],
     chemicals:[

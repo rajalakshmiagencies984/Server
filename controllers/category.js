@@ -23,6 +23,7 @@ module.exports.addNewCategory = async(req,res)=>{
 module.exports.deleteCategory = async(req,res)=>{
     try{
         const {id}=req.body;
+        console.log(req.body)
         await Category.findByIdAndDelete(id);
         res.status(200).json({message:"Success"})
     }catch(error){

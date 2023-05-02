@@ -24,7 +24,7 @@ module.exports.otp_sendEmail = async (req, res) => {
     from: "rajalakshmiagencies984@gmail.com",
     to: user_mail, 
     subject: "Rajalakshmi Agencies | OTP", 
-    text: "KEC CIRCULAR", 
+    text: "", 
     html: `<p> Here the OTP for your verification => <b> ${otp} </b><p>`,
   });
  

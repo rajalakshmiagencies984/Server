@@ -37,11 +37,17 @@ module.exports.editProduct = async(req,res)=>{
 
 
 module.exports.deleteProduct=async(req,res)=>{
+    
     try {
-        const {id}=req.params;
+        const {id}=req.body
+        const product =await Product.findById(id)
+        const category = await Category.findOne({title:product.category})
+        await category.products.remove(product._id);
         await Product.findByIdAndDelete(id);
+        await category.save();
         res.status(200).json({message:"Successfull"})
     } catch (error) {
+        console.log(error)
         res.status(500).send(error)
     }
 }
