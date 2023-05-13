@@ -4,7 +4,7 @@ const {Schema}=mongoose
 
 const adminSchema = new Schema({
     name:String,
-    passowrd:String,
+    password:String,
     email:String,
     phone:String,
     createdOn:{

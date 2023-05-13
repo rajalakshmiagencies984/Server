@@ -10,7 +10,7 @@ module.exports.login = async(req,res)=>{
         if(!admin){
             return res.status(404).json({error:"User not Found"})
         }
-        const isPasswordCorrect = bcrypt.compare(admin.password,password);
+        const isPasswordCorrect = await bcrypt.compare(password,admin.password);
         if(!isPasswordCorrect){
             return res.status(400).json({error:"Password not correct"})
         }
@@ -28,7 +28,7 @@ module.exports.register =async(req,res)=>{
     try {
         const admin = await Admin.findOne({email});
         if(admin){
-            return res.status(400).json({error:"User already found"})  
+            return res.status(400).json({error:"User already found"})
         }
         const hashpassword = await bcrypt.hash(password,12);
         const newUser = new Admin({email,phone,name,password:hashpassword});
