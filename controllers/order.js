@@ -4,6 +4,7 @@ const {sendMessage}=require('../controllers/mail.js')
 const Admin = require('../model/Admin.js')
 const {pushnotify}=require('../controllers/notification')
 
+
 module.exports.newOrder=async(req,res)=>{
     try {
         const order = new Order({...req.body});
@@ -49,15 +50,22 @@ module.exports.acceptOrder = async(req,res)=>{
     const {id}=req.body
     try {
         const order = await Order.findById(id)
-        order.acceptedOn=Date.now
+        order.acceptedOn=new Date
         order.status="accepted"
         await order.save();
         const user = await User.findById(order.user)
+      
+        let content = "Your order has been approved by admin"
         if(user.deviceId){
-            pushnotify([user.deviceId],"Your order has been approved by admin","Your order has been approved by admin")
+            pushnotify([user.deviceId],content,content)
         }
-        res.status(200).json(order)
+        if(user.email){
+            sendMessage(user.email,content)
+        }
+        res.status(200).json({msg:"success"})
+
     } catch (error) {
+        console.log(error)
         res.status(500).send(error)
     }
 }
@@ -69,8 +77,12 @@ module.exports.rejectOrder=async(req,res)=>{
         order.status="rejected"
         await order.save();
         const user = await User.findById(order.user)
+        let content = "Your order has been rejected by admin"
         if(user.deviceId){
-            pushnotify([user.deviceId],"Your order has been approved by admin","Your order has been approved by admin")
+            pushnotify([user.deviceId],content,content)
+        }
+        if(user.email){
+            sendMessage(user.email,content)
         }
         res.status(200).json(order)
     } catch (error) {
@@ -82,15 +94,19 @@ module.exports.deliveredOrder=async(req,res)=>{
     const {id}=req.body
     try{
         const order=await Order.findById(id)
-        order.delieveredOn=Date.now
+        order.delieveredOn=new Date
         order.paid=true;
         order.deliveryStatus=true
         order.status="delivered"
         await order.save();
 
         const user = await User.findById(order.user)
+        let content ="Your order has been delivered"
         if(user.deviceId){
-            pushnotify([user.deviceId],"Your order has been delivered","Your order has been delivered")
+            pushnotify([user.deviceId],content)
+        }
+        if(user.email){
+            sendMessage(user.email,content)
         }
         res.status(200).json(order)
     }catch(Error){
