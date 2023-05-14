@@ -4,7 +4,7 @@ const {newOrder,getAll,getMyOrders,acceptOrder,deliveredOrder, rejectOrder}=requ
 
 router.get('/',getAll)
 router.post('/',newOrder)
-router.get('/:id',getMyOrders)
+router.post('/my',getMyOrders)
 router.post('/accept',acceptOrder)
 router.post('/reject',rejectOrder)
 router.post('/delivery',deliveredOrder)

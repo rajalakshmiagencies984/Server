@@ -3,7 +3,7 @@ const Order = require('../model/Orders')
 const {sendMessage}=require('../controllers/mail.js')
 const Admin = require('../model/Admin.js')
 const {pushnotify}=require('../controllers/notification')
-
+const mongoose=require('mongoose')
 
 module.exports.newOrder=async(req,res)=>{
     try {
@@ -35,13 +35,16 @@ module.exports.getAll = async(req,res)=>{
 
 
 module.exports.getMyOrders=async(req,res)=>{
-    const {id}=req.params;
+    const {id}=req.body;
 
     try {
-        const order=await Order.find().populate('user');
-        const orders = order.filter(o => o.user._id==id)
-        return res.status(200).json(orders)
+        const orders=await Order.find({}).populate('user')
+        // const mid = mongoose.Types.ObjectId(id)
+        const user = await User.findById(id)
+        const my_orders = await orders.filter(o => o.user._id==user.id)
+        return res.status(200).json(my_orders)
     } catch (error) {
+        console.log(error.message)
         res.status(500).send(error)
     }
 }
@@ -54,7 +57,7 @@ module.exports.acceptOrder = async(req,res)=>{
         order.status="accepted"
         await order.save();
         const user = await User.findById(order.user)
-      
+
         let content = "Your order has been approved by admin"
         if(user.deviceId){
             pushnotify([user.deviceId],content,content)
