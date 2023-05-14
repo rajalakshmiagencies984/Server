@@ -1,26 +1,25 @@
 const nodemailer = require("nodemailer");
 const dotenv = require('dotenv')
 dotenv.config()
+
 module.exports.otp_sendEmail = async (req, res) => {
   var otp = req.body.otp;
   var user_mail = req.body.email
 
-  let transporter = nodemailer.createTransport({
 
+  let transporter = nodemailer.createTransport({
     host: "smtp.ethereal.email",
     port: 587,
     secure: false,
     service: "Gmail",
     auth: {
-      user: process.env.USER,
-      pass: process.env.PASS,
+      user: process.env.NODEMAILER_USER,
+      pass: process.env.NODEMAILER_PASS,
     },
   });
 
 
   let info = await transporter.sendMail({
-
-
     from: "rajalakshmiagencies984@gmail.com",
     to: user_mail,
     subject: "Rajalakshmi Agencies | OTP",
