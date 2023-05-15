@@ -1,11 +1,13 @@
 
 const pushNotificationService=require("../services/notification.js");
+const dotenv = require('dotenv')
+dotenv.config();
 
 
 
 
 module.exports.pushnotify=(devices,content,title)=>{
-    
+
     const message={
         app_id:process.env.APP_ID,
         contents:{en:content},
@@ -31,5 +33,5 @@ module.exports.pushnotify=(devices,content,title)=>{
         }
     })
 
-        
+
 }

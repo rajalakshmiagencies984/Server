@@ -1,6 +1,7 @@
 
 const https = require("https")
-
+const dotenv = require('dotenv')
+dotenv.config()
 
 const SendNotification = async (data, cb) => {
     var headers = {

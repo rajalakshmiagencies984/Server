@@ -33,6 +33,7 @@ module.exports.otp_sendEmail = async (req, res) => {
 
 
 module.exports.sendMessage =async(email,message)=>{
+  console.log(email,message)
  try{
    let transporter = nodemailer.createTransport({
 
@@ -41,8 +42,8 @@ module.exports.sendMessage =async(email,message)=>{
      secure: false,
      service: "Gmail",
      auth: {
-       user: process.env.USER,
-       pass: process.env.PASS,
+       user: process.env.NODEMAILER_USER,
+       pass: process.env.NODEMAILER_PASS,
       },
     });
 
@@ -52,7 +53,7 @@ module.exports.sendMessage =async(email,message)=>{
       from: "rajalakshmiagencies984@gmail.com",
       to: email,
       subject: "Message from Rajalasksmi Agencies",
-      text: "Insta Seva",
+      text: "Rajalakshmi Agencies",
       html: `<p>${message}<p>`,
     })
 
@@ -60,7 +61,7 @@ module.exports.sendMessage =async(email,message)=>{
      info.messageId ? console.log('Message Sent') :console.log('Error Occured!')
   }
   catch(error){
-    console.log(error)
+    console.log(error.message,"error in mail")
   }
 
 }

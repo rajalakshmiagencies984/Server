@@ -63,12 +63,12 @@ module.exports.acceptOrder = async(req,res)=>{
             pushnotify([user.deviceId],content,content)
         }
         if(user.email){
-            sendMessage(user.email,content)
+            sendMessage([user.email],content)
         }
         res.status(200).json({msg:"success"})
 
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
         res.status(500).send(error)
     }
 }
@@ -85,7 +85,7 @@ module.exports.rejectOrder=async(req,res)=>{
             pushnotify([user.deviceId],content,content)
         }
         if(user.email){
-            sendMessage(user.email,content)
+            sendMessage([user.email],content)
         }
         res.status(200).json(order)
     } catch (error) {
@@ -109,7 +109,7 @@ module.exports.deliveredOrder=async(req,res)=>{
             pushnotify([user.deviceId],content)
         }
         if(user.email){
-            sendMessage(user.email,content)
+            sendMessage([user.email],content)
         }
         res.status(200).json(order)
     }catch(Error){
