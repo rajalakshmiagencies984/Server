@@ -19,6 +19,7 @@ const productSchema = new Schema({
         {
             name:String,
             percentage:Number,
+            stock:Number
         }
     ],
     products:[
@@ -36,7 +37,7 @@ const productSchema = new Schema({
         default:Date.now
     }
 
-}) 
+})
 
 
 module.exports = mongoose.model("Product",productSchema)

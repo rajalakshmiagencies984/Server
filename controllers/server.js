@@ -1,10 +1,9 @@
 const Server = require('../routes/server')
 
 module.exports.setServer =async()=>{
-    const {server}=req.body;
     try {
-        const server = await Server.findOne({});
-        console.log(server)
+        const serverOne= await Server.findOne({});
+        serverOne.server=req.body.server
         res.status(200).json(server)
     } catch (error) {
         res.status(500).send(error)
