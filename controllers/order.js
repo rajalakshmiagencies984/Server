@@ -63,7 +63,7 @@ module.exports.acceptOrder = async(req,res)=>{
             pushnotify([user.deviceId],content,content)
         }
         if(user.email){
-            sendMessage([user.email],content)
+            sendMessage(user.email,content)
         }
         res.status(200).json({msg:"success"})
 
@@ -85,7 +85,7 @@ module.exports.rejectOrder=async(req,res)=>{
             pushnotify([user.deviceId],content,content)
         }
         if(user.email){
-            sendMessage([user.email],content)
+            sendMessage(user.email,content)
         }
         res.status(200).json(order)
     } catch (error) {
@@ -106,10 +106,10 @@ module.exports.deliveredOrder=async(req,res)=>{
         const user = await User.findById(order.user)
         let content ="Your order has been delivered"
         if(user.deviceId){
-            pushnotify([user.deviceId],content)
+            pushnotify([user.deviceId],content,content)
         }
         if(user.email){
-            sendMessage([user.email],content)
+            sendMessage(user.email,content)
         }
         res.status(200).json(order)
     }catch(Error){

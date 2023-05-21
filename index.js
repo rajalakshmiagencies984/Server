@@ -21,7 +21,7 @@ mongoose.connect(process.env.DB,{useNewUrlParser:true,useUnifiedTopology:true})
 .then( () => {
     console.log("Connection open")
 }).catch(err => {
-    console.log("OOPS !! ERROR",err)
+    console.log("OOPS !! ERROR",err.message)
 })
 
 app.get('/',(req,res)=>{
