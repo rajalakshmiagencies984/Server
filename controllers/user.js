@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 
 module.exports.login = async(req,res)=>{
     try {
-        const {email,password}=req.body;
+        const {email,password,deviceId}=req.body;
         const user = await User.findOne({email});
         if(!user){
             return res.status(404).json({error:"User not Found"});
@@ -13,8 +13,10 @@ module.exports.login = async(req,res)=>{
         if(!hashPassword){
             res.status(401).json({message:"Password dont match"})
         }
+        user.deviceId=deviceId;
+        await user.save();
         const token = jwt.sign({email,id:user._id},'token',{expiresIn:'10d'})
-        return res.status(200).json({token,user:user});        
+        return res.status(200).json({token,user:user});
     } catch (error) {
         res.status(500).send(error)
     }
@@ -23,7 +25,7 @@ module.exports.login = async(req,res)=>{
 module.exports.register = async(req,res)=>{
     try {
         const {name,email,password,aadhar,phone,deviceId}=req.body;
-    
+
         const user = await User.findOne({email});
         if(user){
             return res.status(400).json({error:"User Already Found"});
@@ -71,7 +73,7 @@ module.exports.changePassword=async(req,res)=>{
         const updatedUser = await User.findByIdAndUpdate(user._id,{password:hash});
         await updatedUser.save();
         const token = jwt.sign({email,id:user._id},'token',{expiresIn:'10d'})
-        return res.status(200).json({token,user:user});      
+        return res.status(200).json({token,user:user});
     } catch (error) {
         res.status(500).send(error)
     }
@@ -80,7 +82,7 @@ module.exports.changePassword=async(req,res)=>{
 
 module.exports.deleteUser = async(req,res)=>{
     const {id}=req.body;
-    try {   
+    try {
         await User.findByIdAndDelete(id);
         res.status(200).json({message:"Success"});
     } catch (error) {
